@@ -2,31 +2,43 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>初回登録</title>
+
+    <!-- スマホ表示を強制（LINEブラウザ縮小対策） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <!-- LIFF SDK -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
+    <!-- ★フォーム縮小バグ対策CSS（LINEブラウザでも必ず大きく表示） -->
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        input { margin: 5px 0; padding: 5px; width: 200px; }
-        button { padding: 10px 20px; margin-top: 10px; }
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 12px !important;
+            width: 260px !important;
+            font-size: 18px !important;
+            height: auto !important;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 14px 24px !important;
+            font-size: 18px !important;
+            margin-top: 15px;
+        }
+
+        #status {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #444;
+        }
     </style>
-    <style>
-  input {
-    font-size: 18px !important;
-    padding: 10px !important;
-    width: 260px !important;
-    height: auto !important;
-  }
-
-  button {
-    font-size: 18px !important;
-    padding: 12px 20px !important;
-  }
-</style>
-
 </head>
 
 <body>
@@ -34,7 +46,7 @@
 <h2>初回登録フォーム</h2>
 
 <div id="status"></div>
-    
+
 <div id="registerForm" style="display:none;">
     <div>
         保護者名：<br>
@@ -68,9 +80,8 @@
 
 <div id="userInfo" style="display:none;"></div>
 
+<!-- script.js 読み込み -->
+<script src="script.js"></script>
 
-    <!-- あなたの script.js -->
-    <script src="script.js"></script>
-    
 </body>
 </html>
