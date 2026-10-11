@@ -1,31 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>初回登録</title>
+
+    <!-- LIFF SDK -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <!-- あなたの script.js -->
     <script src="script.js"></script>
+
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        input { margin: 5px 0; padding: 5px; width: 200px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+    </style>
 </head>
+
 <body>
 
 <h2>初回登録フォーム</h2>
 
 <div id="registerForm" style="display:none;">
-    保護者名：<input id="parentName"><br>
-    生徒名：<input id="studentName"><br>
-    学年：<input id="grade"><br>
-    クラス：<input id="className"><br>
+    <div>
+        保護者名：<br>
+        <input id="parentName" placeholder="山田太郎">
+    </div>
+
+    <div>
+        生徒名：<br>
+        <input id="studentName" placeholder="山田花子">
+    </div>
+
+    <div>
+        学年：<br>
+        <input id="grade" placeholder="6">
+    </div>
+
+    <div>
+        クラス：<br>
+        <input id="className" placeholder="A">
+    </div>
+
     <button id="registerBtn">登録する</button>
-    <div id="registerResult"></div>
+    <div id="registerResult" style="margin-top:10px;color:blue;"></div>
 </div>
 
-<!-- 初回登録画面では非表示になる -->
+<!-- 初回登録画面では非表示 -->
 <div id="checkinArea" style="display:none;">
     <button id="checkinBtn">受付する</button>
     <div id="checkinResult"></div>
 </div>
 
-<div id="userInfo"></div>
+<div id="userInfo" style="display:none;"></div>
 
 </body>
 </html>
