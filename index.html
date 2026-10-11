@@ -2,60 +2,53 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>こやじ受付</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>こやじ受付ミニアプリ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- LIFF SDK 読み込み -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script src="script.js"></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    #container { max-width: 480px; margin: auto; }
-    button {
-      width: 100%; padding: 16px; font-size: 18px;
-      background-color: #06c755; color: white; border: none; border-radius: 8px;
-    }
-    input { margin-bottom: 12px; }
-    #error { color: red; font-weight: bold; }
+    body { font-family: sans-serif; padding: 16px; }
+    label { display:block; margin-top:12px; }
+    input { width:100%; padding:8px; box-sizing:border-box; }
+    button { margin-top:16px; padding:10px 16px; }
+    #main { max-width:480px; margin:0 auto; }
   </style>
 </head>
-
 <body>
-  <div id="container">
-    <h2>PTA受付</h2>
+<div id="main">
+  <h2>PTA受付ミニアプリ</h2>
 
-    <div id="loginStatus">ログイン確認中...</div>
+  <div id="status"></div>
 
-    <!-- 登録フォーム -->
-    <div id="registerForm" style="display:none;">
-      <h3>保護者登録フォーム</h3>
+  <!-- 初回登録フォーム -->
+  <div id="registerForm" style="display:none;">
+    <h3>初回登録フォーム</h3>
 
-      <label>保護者名</label>
-      <input id="regParentName" type="text" style="width:100%; padding:8px;">
+    <label>保護者名</label>
+    <input id="parentName" type="text">
 
-      <label>生徒名</label>
-      <input id="regStudentName" type="text" style="width:100%; padding:8px;">
+    <label>生徒名</label>
+    <input id="studentName" type="text">
 
-      <label>学年</label>
-      <input id="regGrade" type="number" style="width:100%; padding:8px;">
+    <label>学年</label>
+    <input id="grade" type="number">
 
-      <label>クラス</label>
-      <input id="regClass" type="number" style="width:100%; padding:8px;">
+    <label>クラス</label>
+    <input id="className" type="number">
 
-      <button id="registerBtn">登録する</button>
-      <p id="registerResult"></p>
-    </div>
-
-    <!-- 受付画面 -->
-    <div id="userInfo" style="display:none;">
-      <p><strong>保護者名：</strong><span id="parentName"></span></p>
-      <p><strong>生徒名：</strong><span id="studentName"></span></p>
-      <p><strong>学年・クラス：</strong><span id="gradeClass"></span></p>
-      <p><strong>イベント：</strong><span id="eventName"></span></p>
-
-      <button id="checkinBtn">受付する</button>
-      <p id="result"></p>
-    </div>
-
-    <p id="error"></p>
+    <button id="registerBtn">登録する</button>
+    <p id="registerResult"></p>
   </div>
+
+  <!-- 受付ボタン -->
+  <div id="checkinArea" style="display:none;">
+    <h3>受付</h3>
+    <p id="userInfo"></p>
+    <button id="checkinBtn">この端末で受付する</button>
+    <p id="checkinResult"></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
