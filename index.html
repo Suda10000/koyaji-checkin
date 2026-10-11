@@ -34,7 +34,11 @@
     <input id="grade" type="number">
 
     <label>クラス</label>
-    <input id="className" type="text" inputmode="latin" autocomplete="off">
+    <input id="className" 
+       type="text" 
+       inputmode="latin" 
+       pattern="[A-Za-z]+" 
+       autocomplete="off">
 
     <button id="registerBtn">登録する</button>
     <p id="registerResult"></p>
