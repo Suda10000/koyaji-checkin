@@ -44,7 +44,7 @@ async function initLiff() {
   safeSet("status", `ログイン中：${profile.displayName}`);
 
   // -------------------------
-  // 画面判定（ここが今回の修正ポイント）
+  // 画面判定（初回登録 or 受付）
   // -------------------------
   if (eventId !== null && eventId !== "") {
     // 受付画面
