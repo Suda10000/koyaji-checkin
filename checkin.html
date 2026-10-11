@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>イベント受付</title>
+
+    <!-- LIFF SDK -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <!-- あなたの script.js -->
+    <script src="script.js"></script>
+
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+    </style>
+</head>
+
+<body>
+
+<h2>イベント受付</h2>
+
+<!-- 受付画面では登録フォーム非表示 -->
+<div id="registerForm" style="display:none;"></div>
+
+<div id="checkinArea" style="display:none;">
+    <div id="userInfo" style="margin-bottom:10px;"></div>
+    <button id="checkinBtn">受付する</button>
+    <div id="checkinResult" style="margin-top:10px;color:blue;"></div>
+</div>
+
+</body>
+</html>
