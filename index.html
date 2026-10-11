@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>PTA受付</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="script.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    #container { max-width: 480px; margin: auto; }
+    button {
+      width: 100%; padding: 16px; font-size: 18px;
+      background-color: #06c755; color: white; border: none; border-radius: 8px;
+    }
+    #error { color: red; font-weight: bold; }
+  </style>
 </head>
+
 <body>
-  <h1>PTA受付ページ（仮）</h1>
-  <p>ここにLINEログイン後の受付画面が入ります。</p>
+  <div id="container">
+    <h2>PTA受付</h2>
+
+    <div id="loginStatus">ログイン確認中...</div>
+
+    <div id="userInfo" style="display:none;">
+      <p><strong>保護者名：</strong><span id="parentName"></span></p>
+      <p><strong>生徒名：</strong><span id="studentName"></span></p>
+      <p><strong>学年・クラス：</strong><span id="gradeClass"></span></p>
+      <p><strong>イベント：</strong><span id="eventName"></span></p>
+
+      <button id="checkinBtn">受付する</button>
+      <p id="result"></p>
+    </div>
+
+    <p id="error"></p>
+  </div>
 </body>
 </html>
