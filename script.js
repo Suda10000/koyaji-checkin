@@ -71,14 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch(
-        `${API_URL}?mode=register` +
-        `&lineId=${encodeURIComponent(lineUserId)}` +
-        `&parentName=${encodeURIComponent(parentName)}` +
-        `&studentName=${encodeURIComponent(studentName)}` +
-        `&grade=${encodeURIComponent(grade)}` +
-        `&className=${encodeURIComponent(className)}`
-      );
+      const res = await fetch(`${API_URL}?mode=register&lineId=${encodeURIComponent(lineUserId)}&parentName=${encodeURIComponent(parentName)}&studentName=${encodeURIComponent(studentName)}&grade=${encodeURIComponent(grade)}&className=${encodeURIComponent(className)}`);
+
       const result = await res.json();
 
       if (result.status === "ok") {
@@ -103,11 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventId = "EVENT_2024";
 
     try {
-      const res = await fetch(
-        `${API_URL}?mode=checkin` +
-        `&lineId=${encodeURIComponent(lineUserId)}` +
-        `&eventId=${encodeURIComponent(eventId)}`
-      );
+      const res = await fetch(`${API_URL}?mode=checkin&lineId=${encodeURIComponent(lineUserId)}&eventId=${encodeURIComponent(eventId)}`);
+
       const result = await res.json();
 
       if (result.status === "ok") {
