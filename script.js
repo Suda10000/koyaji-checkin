@@ -1,10 +1,36 @@
-// ★ LIFF ID を後で差し替える
+// ★ここに GAS のウェブアプリURLを入れる
+const API_URL = "https://script.google.com/macros/s/AKfycbwa2kQurZNeWX1SX2Al96Q8i5KfXFmDJiLKxuBqnd8BC36bMolx3pH5-fDLOM8yxEBz/execc";
+
+// ★ここに LIFF ID を入れる
 const LIFF_ID = "2011970419-FxNWlUsY";
 
-// ★ GASのAPI URL（後で差し替える）
-const API_URL = "https://script.google.com/macros/s/AKfycbwa2kQurZNeWX1SX2Al96Q8i5KfXFmDJiLKxuBqnd8BC36bMolx3pH5-fDLOM8yxEBz/exec";
+let lineUserId = null;
 
-window.onload = async () => {
+// 揺らぎ吸収（スペース・全角半角・Unicode正規化）
+function normalize(str) {
+  if (!str) return "";
+
+  // 前後スペース除去
+  str = str.trim();
+
+  // 全角英数字→半角
+  str = str.replace(/[！-～]/g, function(s) {
+    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+  });
+
+  // 半角スペースを全部除去
+  str = str.replace(/\s+/g, "");
+
+  // Unicode正規化
+  str = str.normalize("NFC");
+
+  return str;
+}
+
+// LIFF 初期化
+async function initLiff() {
+  document.getElementById("status").innerText = "LINEログインを確認中…";
+
   await liff.init({ liffId: LIFF_ID });
 
   if (!liff.isLoggedIn()) {
@@ -12,61 +38,90 @@ window.onload = async () => {
     return;
   }
 
-  document.getElementById("loginStatus").innerText = "ログイン済み";
-
   const profile = await liff.getProfile();
-  const lineUserId = profile.userId;
+  lineUserId = profile.userId;
 
-  // URLパラメータから eventId を取得
-  const params = new URLSearchParams(window.location.search);
-  const eventId = params.get("event") || "unknown";
+  document.getElementById("status").innerText = `ログイン中：${profile.displayName}`;
 
-  // GAS lookup
-  const res = await fetch(`${API_URL}?mode=lookup&lineId=${lineUserId}`);
-  const data = await res.json();
+  // ここでは「初回登録かどうか」を GAS に問い合わせず、
+  // シンプルに「登録フォーム＋受付ボタン」を両方出す運用もあり。
+  // とりあえず今回は「常に両方表示」しておく。
+  document.getElementById("registerForm").style.display = "block";
+  document.getElementById("checkinArea").style.display = "block";
 
-  // 未登録 → 登録フォーム表示
-  if (!data.found) {
-    document.getElementById("loginStatus").innerText = "未登録のため、登録が必要です。";
-    document.getElementById("registerForm").style.display = "block";
+  document.getElementById("userInfo").innerText = `このLINEユーザーIDで受付します。`;
+}
 
-    document.getElementById("registerBtn").onclick = async () => {
-      const parentName = document.getElementById("regParentName").value;
-      const studentName = document.getElementById("regStudentName").value;
-      const grade = document.getElementById("regGrade").value;
-      const className = document.getElementById("regClass").value;
+// 登録ボタン押下
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("registerBtn").onclick = async () => {
+    if (!lineUserId) {
+      alert("LINEログイン情報が取得できていません。");
+      return;
+    }
 
-      const res3 = await fetch(`${API_URL}?mode=register&lineId=${lineUserId}&parentName=${parentName}&studentName=${studentName}&grade=${grade}&class=${className}`);
-      const result3 = await res3.json();
+    const parentName = normalize(document.getElementById("parentName").value);
+    const studentName = normalize(document.getElementById("studentName").value);
+    const grade = normalize(document.getElementById("grade").value);
+    const className = normalize(document.getElementById("className").value);
 
-      if (result3.status === "ok") {
-        document.getElementById("registerResult").innerText = "登録が完了しました。画面を再読み込みしてください。";
+    if (!parentName || !studentName || !grade || !className) {
+      document.getElementById("registerResult").innerText = "すべて入力してください。";
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${API_URL}?mode=register` +
+        `&lineId=${encodeURIComponent(lineUserId)}` +
+        `&parentName=${encodeURIComponent(parentName)}` +
+        `&studentName=${encodeURIComponent(studentName)}` +
+        `&grade=${encodeURIComponent(grade)}` +
+        `&className=${encodeURIComponent(className)}`
+      );
+      const result = await res.json();
+
+      if (result.status === "ok") {
+        document.getElementById("registerResult").innerText = "登録が完了しました。";
       } else {
         document.getElementById("registerResult").innerText = "登録に失敗しました。";
       }
-    };
-
-    return;
-  }
-
-  // 登録済み → 受付画面表示
-  document.getElementById("parentName").innerText = data.parentName;
-  document.getElementById("studentName").innerText = data.studentName;
-  document.getElementById("gradeClass").innerText = `${data.grade}年${data.class}組`;
-  document.getElementById("eventName").innerText = eventId;
-
-  document.getElementById("userInfo").style.display = "block";
-
-  // 受付ボタン
-  document.getElementById("checkinBtn").onclick = async () => {
-    const res2 = await fetch(`${API_URL}?mode=checkin&lineId=${lineUserId}&event=${eventId}`);
-    const result2 = await res2.json();
-
-    if (result2.status === "ok") {
-      document.getElementById("result").innerText = "受付が完了しました。";
-      document.getElementById("checkinBtn").style.display = "none";
-    } else {
-      document.getElementById("result").innerText = "受付済みです。";
+    } catch (e) {
+      console.error(e);
+      document.getElementById("registerResult").innerText = "通信エラーが発生しました。";
     }
   };
-};
+
+  // 受付ボタン押下
+  document.getElementById("checkinBtn").onclick = async () => {
+    if (!lineUserId) {
+      alert("LINEログイン情報が取得できていません。");
+      return;
+    }
+
+    // イベントIDは固定でも、URLパラメータでもOK
+    const eventId = "EVENT_2024";
+
+    try {
+      const res = await fetch(
+        `${API_URL}?mode=checkin` +
+        `&lineId=${encodeURIComponent(lineUserId)}` +
+        `&eventId=${encodeURIComponent(eventId)}`
+      );
+      const result = await res.json();
+
+      if (result.status === "ok") {
+        document.getElementById("checkinResult").innerText =
+          `受付完了しました（紐づく生徒 ${result.count} 件）。`;
+      } else {
+        document.getElementById("checkinResult").innerText = "受付に失敗しました。";
+      }
+    } catch (e) {
+      console.error(e);
+      document.getElementById("checkinResult").innerText = "通信エラーが発生しました。";
+    }
+  };
+
+  // LIFF 初期化開始
+  initLiff();
+});
