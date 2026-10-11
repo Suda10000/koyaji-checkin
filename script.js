@@ -1,5 +1,5 @@
 // ★ここに GAS のウェブアプリURLを入れる
-const API_URL = "https://script.google.com/macros/s/AKfycbwa2kQurZNeWX1SX2Al96Q8i5KfXFmDJiLKxuBqnd8BC36bMolx3pH5-fDLOM8yxEBz/execc";
+const API_URL = "https://script.google.com/macros/s/AKfycbwa2kQurZNeWX1SX2Al96Q8i5KfXFmDJiLKxuBqnd8BC36bMolx3pH5-fDLOM8yxEBz/exec";
 
 // ★ここに LIFF ID を入れる
 const LIFF_ID = "2011970419-FxNWlUsY";
