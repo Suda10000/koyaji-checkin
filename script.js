@@ -44,9 +44,16 @@ async function initLiff() {
   safeSet("status", `ログイン中：${profile.displayName}`);
 
   // -------------------------
-  // 画面判定（初回登録 or 受付）
+  // ★画面判定（完全修正版）
+  // eventId が「null」「空文字」「undefined」「liff.state」などの場合は初回登録扱い
   // -------------------------
-  if (eventId !== null && eventId !== "") {
+  const isCheckin =
+    eventId &&
+    eventId.trim() !== "" &&
+    eventId !== "null" &&
+    eventId !== "undefined";
+
+  if (isCheckin) {
     // 受付画面
     document.getElementById("registerForm").style.display = "none";
     document.getElementById("checkinArea").style.display = "block";
