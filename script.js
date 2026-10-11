@@ -2,7 +2,7 @@
 const LIFF_ID = "2011970419-FxNWlUsY";
 
 // ★ GASのAPI URL（後で差し替える）
-const API_URL = "https://script.google.com/macros/s/XXXXX/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw_lgMhjkdoRE6hUcdinZttG5ZmdD7rkL9qFjzY6WGnqjhK4Br3tktK823JKf-SxmQa/exec";
 
 window.onload = async () => {
   await liff.init({ liffId: LIFF_ID });
