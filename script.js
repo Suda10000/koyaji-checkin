@@ -1,5 +1,5 @@
 // ★ LIFF ID を後で差し替える
-const LIFF_ID = "YOUR_LIFF_ID";
+const LIFF_ID = "2011970419-FxNWlUsY";
 
 // ★ GASのAPI URL（後で差し替える）
 const API_URL = "https://script.google.com/macros/s/XXXXX/exec";
