@@ -13,6 +13,7 @@
       width: 100%; padding: 16px; font-size: 18px;
       background-color: #06c755; color: white; border: none; border-radius: 8px;
     }
+    input { margin-bottom: 12px; }
     #error { color: red; font-weight: bold; }
   </style>
 </head>
@@ -23,6 +24,27 @@
 
     <div id="loginStatus">ログイン確認中...</div>
 
+    <!-- 登録フォーム -->
+    <div id="registerForm" style="display:none;">
+      <h3>保護者登録フォーム</h3>
+
+      <label>保護者名</label>
+      <input id="regParentName" type="text" style="width:100%; padding:8px;">
+
+      <label>生徒名</label>
+      <input id="regStudentName" type="text" style="width:100%; padding:8px;">
+
+      <label>学年</label>
+      <input id="regGrade" type="number" style="width:100%; padding:8px;">
+
+      <label>クラス</label>
+      <input id="regClass" type="number" style="width:100%; padding:8px;">
+
+      <button id="registerBtn">登録する</button>
+      <p id="registerResult"></p>
+    </div>
+
+    <!-- 受付画面 -->
     <div id="userInfo" style="display:none;">
       <p><strong>保護者名：</strong><span id="parentName"></span></p>
       <p><strong>生徒名：</strong><span id="studentName"></span></p>
@@ -35,23 +57,5 @@
 
     <p id="error"></p>
   </div>
-  <div id="registerForm" style="display:none;">
-  <h3>保護者登録フォーム</h3>
-
-  <label>保護者名</label>
-  <input id="regParentName" type="text" style="width:100%; padding:8px;">
-
-  <label>生徒名</label>
-  <input id="regStudentName" type="text" style="width:100%; padding:8px;">
-
-  <label>学年</label>
-  <input id="regGrade" type="number" style="width:100%; padding:8px;">
-
-  <label>クラス</label>
-  <input id="regClass" type="number" style="width:100%; padding:8px;">
-
-  <button id="registerBtn">登録する</button>
-  <p id="registerResult"></p>
-</div>
 </body>
 </html>
