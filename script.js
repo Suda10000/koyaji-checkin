@@ -20,8 +20,16 @@ function normalize(str) {
   return str;
 }
 
+// 安全に innerText を設定する関数
+function safeSet(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.innerText = text;
+}
+
 // LIFF 初期化
 async function initLiff() {
+
+  safeSet("status", "LINEログインを確認中…");
 
   await liff.init({ liffId: LIFF_ID });
 
@@ -33,6 +41,8 @@ async function initLiff() {
   const profile = await liff.getProfile();
   lineUserId = profile.userId;
 
+  safeSet("status", `ログイン中：${profile.displayName}`);
+
   // -------------------------
   // 画面判定（ここが今回の修正ポイント）
   // -------------------------
@@ -41,7 +51,7 @@ async function initLiff() {
     document.getElementById("registerForm").style.display = "none";
     document.getElementById("checkinArea").style.display = "block";
     document.getElementById("userInfo").style.display = "block";
-    document.getElementById("userInfo").innerText = `このLINEユーザーIDで受付します。`;
+    safeSet("userInfo", `このLINEユーザーIDで受付します。`);
 
   } else {
     // 初回登録画面
@@ -72,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const className = normalize(document.getElementById("className").value);
 
       if (!parentName || !studentName || !grade || !className) {
-        document.getElementById("registerResult").innerText = "すべて入力してください。";
+        safeSet("registerResult", "すべて入力してください。");
         return;
       }
 
@@ -81,14 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await res.json();
 
         if (result.status === "ok") {
-          document.getElementById("registerResult").innerText = "登録が完了しました。";
+          safeSet("registerResult", "登録が完了しました。");
         } else {
-          document.getElementById("registerResult").innerText = "登録に失敗しました。";
+          safeSet("registerResult", "登録に失敗しました。");
         }
 
       } catch (e) {
         console.error(e);
-        document.getElementById("registerResult").innerText = "通信エラーが発生しました。";
+        safeSet("registerResult", "通信エラーが発生しました。");
       }
     };
   }
@@ -106,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!eventId) {
-        document.getElementById("checkinResult").innerText = "イベントIDがありません。QRコードが正しくありません。";
+        safeSet("checkinResult", "イベントIDがありません。QRコードが正しくありません。");
         return;
       }
 
@@ -115,14 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await res.json();
 
         if (result.status === "ok") {
-          document.getElementById("checkinResult").innerText = `受付完了しました（紐づく生徒 ${result.count} 件）。`;
+          safeSet("checkinResult", `受付完了しました（紐づく生徒 ${result.count} 件）。`);
         } else {
-          document.getElementById("checkinResult").innerText = "受付に失敗しました。";
+          safeSet("checkinResult", "受付に失敗しました。");
         }
 
       } catch (e) {
         console.error(e);
-        document.getElementById("checkinResult").innerText = "通信エラーが発生しました。";
+        safeSet("checkinResult", "通信エラーが発生しました。");
       }
     };
   }
